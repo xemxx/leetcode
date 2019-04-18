@@ -1,27 +1,44 @@
 package main
 
+import "fmt"
+
 var result [][]string
-var cut [][]bool
 
 func main() {
-	s := "3123"
-	partition(s)
+	s := "aab"
+	fmt.Println(partition(s))
 
 }
 
 func partition(s string) [][]string {
-	find(s, 0)
+	cut := make([]bool, len(s))
+	//消除在leetcode的多个测试案例中全局变量的影响
+	result = [][]string{}
+	dfs(s, 0, cut)
 	return result
 }
 
-func find(s string, index int) {
-	if index == len(s) {
-
+func dfs(s string, index int, cut []bool) {
+	l := len(s)
+	if index == l {
+		//搜索到底即可进行分割保存此次方案
+		now := []string{}
+		for i, j := 0, 0; i < l; i++ {
+			if cut[i] {
+				now = append(now, s[j:i+1])
+				j = i + 1
+			}
+		}
+		result = append(result, now)
 	}
-	for i := index; index < len(s); i++ {
+	for i := index; i < l; i++ {
 		if isPa(s, index, i) {
-			find(s, i+1)
-			cut[index][i] = true
+			//先标记
+			cut[i] = true
+			//进入下一层
+			dfs(s, i+1, cut)
+			//取消标记，准备下次深搜
+			cut[i] = false
 		}
 	}
 }
