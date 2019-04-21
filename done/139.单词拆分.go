@@ -86,7 +86,7 @@ func dfs2_1(s string, wordDict []string, index int, memo []bool) bool {
 	return false
 }
 
-//动态规划 能过leetcode f[i]表示i长度的字符串能否被字典拼接
+//第三种动态规划 能过leetcode f[i]表示i长度的字符串能否被字典拼接
 func wordBreak1(s string, wordDict []string) bool {
 	f := make([]bool, len(s)+1)
 	f[0] = true

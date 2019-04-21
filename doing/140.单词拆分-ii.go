@@ -12,10 +12,11 @@ func main() {
 	//深搜日常超时，等待下一个解决办法
 	s := "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
 	wordDict := []string{"a", "aa", "aaa", "aaaa", "aaaaa", "aaaaaa", "aaaaaaa", "aaaaaaaa", "aaaaaaaaa", "aaaaaaaaaa"}
-	fmt.Println(wordBreak(s, wordDict))
+	fmt.Println(wordBreak1(s, wordDict))
 
 }
 
+//第一种，超时
 func wordBreak(s string, wordDict []string) []string {
 	result = []string{}
 	cut := make([]bool, len(s)+1)
@@ -41,6 +42,7 @@ func dfs(s string, wordDict []string, index int, cut []bool) {
 		word := s[index:i]
 		if inword(word, wordDict) {
 			cut[i] = true
+			fmt.Println(i)
 			dfs(s, wordDict, i, cut)
 			cut[i] = false
 		}
@@ -54,6 +56,40 @@ func inword(word string, wordDict []string) bool {
 		}
 	}
 	return false
+}
+
+//第二种，先动规，再深搜
+func wordBreak1(s string, wordDict []string) []string {
+	result = []string{}
+	//cut := make([]bool, len(s)+1)
+	f := make([]bool, len(s)+1)
+	f[0] = true
+	for i := 1; i <= len(s); i++ {
+		for _, v := range wordDict {
+			if i >= len(v) && f[i-len(v)] && v == s[i-len(v):i] {
+				f[i] = true
+				break
+			}
+		}
+	}
+	dfs1(s, wordDict, 0, f, "")
+	return result
+}
+
+func dfs1(s string, wordDict []string, index int, f []bool, res string) {
+	l := len(s)
+	if index == l {
+		res = res[0 : len(res)-1]
+		fmt.Println(res)
+		result = append(result, res)
+	}
+	for i := index + 1; i <= l; i++ {
+		word := s[index:i]
+		if inword(word, wordDict) {
+			res += word + " "
+			dfs1(s, wordDict, i, f, res)
+		}
+	}
 }
 
 /*
