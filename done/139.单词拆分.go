@@ -8,16 +8,15 @@ func main() {
 	//很简单的想到深搜，结果一下案例超时，我自己的mac本地跑了500多秒没跑完。。。下面用动规试试
 	s := "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaab"
 	wordDict := []string{"a", "aa", "aaa", "aaaa", "aaaaa", "aaaaaa", "aaaaaaa", "aaaaaaaa", "aaaaaaaaa", "aaaaaaaaaa"}
-	fmt.Println(wordBreak1(s, wordDict))
+	fmt.Println(wordBreak3(s, wordDict))
 
-}
-func wordBreak(s string, wordDict []string) bool {
-	//return dfs2(s, wordDict, 0)
-	memo := make([]bool, len(s)+1)
-	return dfs2_1(s, wordDict, 0, memo)
 }
 
 //第一种递归，遍历字典
+func wordBreak(s string, wordDict []string) bool {
+	return dfs(s, wordDict, 0)
+}
+
 func dfs(s string, wordDict []string, index int) bool {
 
 	if index == len(s) {
@@ -39,6 +38,10 @@ func dfs(s string, wordDict []string, index int) bool {
 }
 
 //第二种递归，遍历字符串
+func wordBreak2(s string, wordDict []string) bool {
+	return dfs2(s, wordDict, 0)
+}
+
 func dfs2(s string, wordDict []string, index int) bool {
 
 	if index == len(s) {
@@ -64,16 +67,21 @@ func inword(s string, wordDict []string) bool {
 }
 
 //第二种优化 成功通过
+func wordBreak2_1(s string, wordDict []string) bool {
+	//return dfs2(s, wordDict, 0)
+	memo := make([]bool, len(s)+1)
+	return dfs2_1(s, wordDict, 0, memo)
+}
 func dfs2_1(s string, wordDict []string, index int, memo []bool) bool {
 
 	if index == len(s) {
 		return true
 	}
-	if memo[index] == true {
+	if memo[index] {
 		return false
 	}
 	for i := index + 1; i <= len(s); i++ {
-		if memo[i] == true {
+		if memo[i] {
 			continue
 		}
 		//此处判断是否在字典内可以优化为map[string]bool 直接判断
@@ -82,12 +90,13 @@ func dfs2_1(s string, wordDict []string, index int, memo []bool) bool {
 			return true
 		}
 	}
+	//记录已经查过的情况，因为slice是引用类型
 	memo[index] = true
 	return false
 }
 
 //第三种动态规划 能过leetcode f[i]表示i长度的字符串能否被字典拼接
-func wordBreak1(s string, wordDict []string) bool {
+func wordBreak3(s string, wordDict []string) bool {
 	f := make([]bool, len(s)+1)
 	f[0] = true
 	for i := 1; i <= len(s); i++ {

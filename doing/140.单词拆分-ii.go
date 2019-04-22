@@ -6,13 +6,14 @@ import (
 )
 
 var result []string
+var wd map[string]bool
 
 func main() {
 	runtime.GOMAXPROCS(4)
 	//深搜日常超时，等待下一个解决办法
-	s := "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+	s := "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaabaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
 	wordDict := []string{"a", "aa", "aaa", "aaaa", "aaaaa", "aaaaaa", "aaaaaaa", "aaaaaaaa", "aaaaaaaaa", "aaaaaaaaaa"}
-	fmt.Println(wordBreak1(s, wordDict))
+	fmt.Println(wordBreak_1(s, wordDict))
 
 }
 
@@ -20,6 +21,7 @@ func main() {
 func wordBreak(s string, wordDict []string) []string {
 	result = []string{}
 	cut := make([]bool, len(s)+1)
+	wd = createWordDict(wordDict)
 	dfs(s, wordDict, 0, cut)
 	return result
 }
@@ -35,27 +37,61 @@ func dfs(s string, wordDict []string, index int, cut []bool) {
 				h = i
 			}
 		}
+		//fmt.Println(res)
 		res = res[0 : len(res)-1]
 		result = append(result, res)
 	}
 	for i := index + 1; i <= l; i++ {
 		word := s[index:i]
-		if inword(word, wordDict) {
+		if wd[word] {
 			cut[i] = true
-			fmt.Println(i)
+			//fmt.Println(i)
 			dfs(s, wordDict, i, cut)
 			cut[i] = false
 		}
 	}
 }
 
-func inword(word string, wordDict []string) bool {
-	for _, v := range wordDict {
-		if v == word {
-			return true
+//第一种递归优化 能通过
+func wordBreak_1(s string, wordDict []string) []string {
+	result = []string{}
+	//cut := make([]bool, len(s)+1)
+	wd = createWordDict(wordDict)
+	result = dfs_1(s, map[string][]string{})
+	return result
+}
+
+func dfs_1(s string, mp map[string][]string) []string {
+	l := len(s)
+	_, ok := mp[s]
+	if ok {
+		return mp[s]
+	}
+	res := make([]string, 0)
+	if len(s) == 0 {
+		res = append(res, "")
+		return res
+	}
+	//此处可以选择遍历字典，那样在某些情况下会比较快
+	for i := 1; i <= l; i++ {
+		word := s[:i]
+		if wd[word] {
+			//已经知道s[:i]存在dict中，寻找s[i:]能否被字典拼接，并保存拼接情况
+			list := dfs_1(s[i:], mp)
+			//将子串的所有情况根据现在的进行拼接
+			for _, v := range list {
+				str := word
+				if len(v) > 0 {
+					str += " " + v
+				}
+				res = append(res, str)
+			}
+
 		}
 	}
-	return false
+	//更新map，因为map是引用类型
+	mp[s] = res
+	return res
 }
 
 //第二种，先动规，再深搜
@@ -72,24 +108,37 @@ func wordBreak1(s string, wordDict []string) []string {
 			}
 		}
 	}
-	dfs1(s, wordDict, 0, f, "")
+	//递归主要是为了去掉不能拼接却依旧dfs的情况
+	if !f[len(s)] {
+		return []string{}
+	}
+	wd = createWordDict(wordDict)
+	dfs1(s, 0, f, "")
 	return result
 }
 
-func dfs1(s string, wordDict []string, index int, f []bool, res string) {
+func dfs1(s string, index int, f []bool, res string) {
 	l := len(s)
 	if index == l {
+		//fmt.Println(res)
 		res = res[0 : len(res)-1]
-		fmt.Println(res)
+		//fmt.Println(res)
 		result = append(result, res)
 	}
 	for i := index + 1; i <= l; i++ {
 		word := s[index:i]
-		if inword(word, wordDict) {
-			res += word + " "
-			dfs1(s, wordDict, i, f, res)
+		if wd[word] && f[i] {
+			//fmt.Println(i)
+			dfs1(s, i, f, res+word+" ")
 		}
 	}
+}
+func createWordDict(dict []string) map[string]bool {
+	word := make(map[string]bool, len(dict))
+	for _, v := range dict {
+		word[v] = true
+	}
+	return word
 }
 
 /*
