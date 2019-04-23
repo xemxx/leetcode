@@ -1,34 +1,46 @@
 package main
 
-import "fmt"
-
-func main() {
-
-	fmt.Println(Constructor)
+type Trie struct {
+	count int
+	child map[string]Trie
 }
 
-type Trie struct {
-	pro int
+func main() {
+	word := "dasd"
+	prefix := "da"
+	obj := Constructor()
+	obj.Insert(word)
+	param_2 := obj.Search(word)
+	param_3 := obj.StartsWith(prefix)
 }
 
 /** Initialize your data structure here. */
 func Constructor() Trie {
-	return Trie{}
+	return Trie{0, map[string]Trie{}}
 }
 
 /** Inserts a word into the trie. */
 func (t *Trie) Insert(word string) {
-
+	tmp:=
+	for i := 0; i < len(word); i++ {
+		v := word[i : i+1]
+		_, ok := t.child[v]
+		if ok {
+			continue
+		}
+		t.count += 1
+		t.child
+	}
 }
 
 /** Returns if the word is in the trie. */
 func (t *Trie) Search(word string) bool {
-	return true
+
 }
 
 /** Returns if there is any word in the trie that starts with the given prefix. */
 func (t *Trie) StartsWith(prefix string) bool {
-	return true
+
 }
 
 /**
