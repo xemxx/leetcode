@@ -9,14 +9,14 @@ type TreeNode struct {
 }
 
 func main() {
-	fmt.Println(kthSmallest(&TreeNode{3, &TreeNode{1, nil, &TreeNode{2, nil, nil}}, &TreeNode{4, nil, nil}}, 2))
+	fmt.Println(kthSmallest1(&TreeNode{3, &TreeNode{1, &TreeNode{0, nil, nil}, &TreeNode{2, nil, nil}}, &TreeNode{4, nil, nil}}, 2))
 }
+
+//方法一 用中序遍历的方法生成有序数组 由于是递归所以时间复杂度较高
 func kthSmallest(root *TreeNode, k int) int {
 	arr := dfs(root)
 	return arr[k-1]
 }
-
-//用中序遍历的方法生成有序数组
 func dfs(node *TreeNode) []int {
 	arr := []int{}
 	if node != nil {
@@ -34,6 +34,55 @@ func dfs(node *TreeNode) []int {
 
 	}
 	return arr
+}
+
+//方法二 用数组保存各个节点，然后按照中序遍历的顺序查找第k大的节点 时间复杂度更低
+func kthSmallest1(root *TreeNode, k int) int {
+	stack := make([]*TreeNode, 0)
+	ans := 0
+	for true {
+		for root != nil {
+			stack = append(stack, root)
+			root = root.Left
+		}
+		//fmt.Println(stack)
+		if len(stack) == 0 {
+			break
+		}
+		node := stack[len(stack)-1]
+		stack = stack[:len(stack)-1]
+		//fmt.Println(node)
+		ans = node.Val
+		//fmt.Println(ans)
+		k--
+		if k == 0 {
+			break
+		}
+		root = node.Right
+
+	}
+	return ans
+}
+
+//第三种 也是按照中序遍历的方式查找最少元素，为上一种方法的递归实现 但是在leetcode上花费时间更少
+func kthSmallest2(root *TreeNode, k int) int {
+	return *(traversal(root, &k))
+}
+func traversal(node *TreeNode, k *int) *int {
+	if node.Left != nil {
+		res := traversal(node.Left, k)
+		if res != nil {
+			return res
+		}
+	}
+	(*k)--
+	if (*k) == 0 {
+		return &node.Val
+	}
+	if node.Right != nil {
+		return traversal(node.Right, k)
+	}
+	return nil
 }
 
 /*
