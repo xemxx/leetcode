@@ -2,8 +2,14 @@ package main
 
 import "fmt"
 
+type TreeNode struct {
+	Val   int
+	Left  *TreeNode
+	Right *TreeNode
+}
+
 func main() {
-	fmt.Println(kthSmallest())
+	fmt.Println(kthSmallest(&TreeNode{}, 2))
 }
 func kthSmallest(root *TreeNode, k int) int {
 
