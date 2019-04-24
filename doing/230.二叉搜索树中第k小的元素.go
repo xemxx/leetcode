@@ -9,10 +9,31 @@ type TreeNode struct {
 }
 
 func main() {
-	fmt.Println(kthSmallest(&TreeNode{}, 2))
+	fmt.Println(kthSmallest(&TreeNode{3, &TreeNode{1, nil, &TreeNode{2, nil, nil}}, &TreeNode{4, nil, nil}}, 2))
 }
 func kthSmallest(root *TreeNode, k int) int {
+	arr := dfs(root)
+	return arr[k-1]
+}
 
+//用中序遍历的方法生成有序数组
+func dfs(node *TreeNode) []int {
+	arr := []int{}
+	if node != nil {
+		lNode := node.Left
+		add := dfs(lNode)
+		for _, v := range add {
+			arr = append(arr, v)
+		}
+		arr = append(arr, node.Val)
+		rNode := node.Right
+		add = dfs(rNode)
+		for _, v := range add {
+			arr = append(arr, v)
+		}
+
+	}
+	return arr
 }
 
 /*
