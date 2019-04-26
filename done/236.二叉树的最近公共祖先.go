@@ -16,7 +16,7 @@ func lowestCommonAncestor(root, p, q *TreeNode) *TreeNode {
 	if root==nil || p.Val ==root.Val || q.Val==root.Val {
 		return root
 	}
-	
+	//分别遍历左右子树
 	left:=lowestCommonAncestor(root.Left,q,p)
 	right:=lowestCommonAncestor(root.Right,q,p)
 
