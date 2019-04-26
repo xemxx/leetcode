@@ -9,10 +9,27 @@ type TreeNode struct {
 }
 
 func main() {
-	fmt.Println(lowestCommonAncestor(&TreeNode{3, &TreeNode{1, &TreeNode{0, nil, nil}, &TreeNode{2, nil, nil}}, &TreeNode{4, nil, nil}}, &TreeNode{0, nil, nil}, &TreeNode{2, nil, nil}))
+	fmt.Println(lowestCommonAncestor(&TreeNode{3, &TreeNode{1, &TreeNode{0, nil, nil}, &TreeNode{2, nil, nil}}, &TreeNode{4, nil, nil}}, &TreeNode{0, nil, nil}, &TreeNode{4, nil, nil}))
 }
+
 func lowestCommonAncestor(root, p, q *TreeNode) *TreeNode {
-	return &TreeNode{}
+	if root==nil || p.Val ==root.Val || q.Val==root.Val {
+		return root
+	}
+	
+	left:=lowestCommonAncestor(root.Left,q,p)
+	right:=lowestCommonAncestor(root.Right,q,p)
+
+	if left!=nil && right!=nil {
+		return root
+	}
+
+	if left == nil {
+		return right
+	}else{
+		return left
+	}
+
 }
 
 /*
