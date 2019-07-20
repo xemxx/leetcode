@@ -11,9 +11,9 @@ import (
 )
 
 func main() {
-    s := "ab"
+   // s := "ab"
     p := ".*c"
-	fmt.Println(isMatch_dp(s,p))
+	fmt.Println(p[1]=="*")
 
 }
 
