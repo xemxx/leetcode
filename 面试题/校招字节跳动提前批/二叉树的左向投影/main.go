@@ -1,19 +1,19 @@
 package main
 
-type Tree struct {
+type tree struct {
 	v  int
-	ln *Tree
-	rn *Tree
+	ln *tree
+	rn *tree
 }
 
 var num = map[int]int{}
 
 func main() {
 	num = make(map[int]int, 10)
-	dp(&Tree{}, 0)
+	dp(&tree{}, 0)
 }
 
-func dp(node *Tree, i int) {
+func dp(node *tree, i int) {
 	num[i] = node.v
 	if node.rn != nil {
 		dp(node.rn, i+1)
