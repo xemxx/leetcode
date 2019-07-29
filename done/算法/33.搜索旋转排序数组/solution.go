@@ -13,9 +13,12 @@ func search(nums []int, target int) int {
 	mid := 0
 	for l <= r {
 		mid = l + (r-l)/2
+		// 加此判断是为了可以提前结束查找
 		if nums[mid] == target {
 			return mid
 		}
+
+		// 二分搜索的具体实现，每次去除一半的区域
 		if nums[mid] < nums[r] {
 			if nums[mid] < target && target <= nums[r] {
 				l = mid + 1
@@ -32,3 +35,6 @@ func search(nums []int, target int) int {
 	}
 	return -1
 }
+
+// 可以采用异或版本题解：https://leetcode-cn.com/problems/search-in-rotated-sorted-array/solution/ji-jian-solution-by-lukelee/
+// golang的异或运算符不支持bool类型因此不做示例
