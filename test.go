@@ -3,8 +3,9 @@ package main
 import "fmt"
 
 func main() {
-	s := "1245152451321211"
-	dp(s, 6, "")
+	a := []int{1, 2, 3, 4, 5}
+	a = a[1:3]
+	fmt.Println(a)
 }
 func dp(s string, n int, re string) {
 	ls := len(s)
