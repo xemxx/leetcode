@@ -1,11 +1,11 @@
-package ownsort
+package sort
 
-//快排实现
-func quickSort(arr []int, left, right int) []int {
+// QuickSort .
+func QuickSort(arr []int, left, right int) []int {
 	if left < right {
 		pivot := paritition(arr, left, right)
-		quickSort(arr, left, pivot-1)
-		quickSort(arr, pivot+1, right)
+		QuickSort(arr, left, pivot-1)
+		QuickSort(arr, pivot+1, right)
 	}
 	return arr
 }
@@ -25,7 +25,7 @@ func paritition(arr []int, left, right int) int {
 		}
 	}
 	swap(arr, j, left)
-	return left
+	return j
 }
 
 //对最基础的分区方法改进
