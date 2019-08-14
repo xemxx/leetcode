@@ -2,6 +2,7 @@ package main
 
 import "fmt"
 
+// TreeNode .
 type TreeNode struct {
 	Val   int
 	Left  *TreeNode
@@ -13,20 +14,20 @@ func main() {
 }
 
 func lowestCommonAncestor(root, p, q *TreeNode) *TreeNode {
-	if root==nil || p.Val ==root.Val || q.Val==root.Val {
+	if root == nil || p.Val == root.Val || q.Val == root.Val {
 		return root
 	}
 	//分别遍历左右子树
-	left:=lowestCommonAncestor(root.Left,q,p)
-	right:=lowestCommonAncestor(root.Right,q,p)
+	left := lowestCommonAncestor(root.Left, q, p)
+	right := lowestCommonAncestor(root.Right, q, p)
 
-	if left!=nil && right!=nil {
+	if left != nil && right != nil {
 		return root
 	}
 
 	if left == nil {
 		return right
-	}else{
+	} else {
 		return left
 	}
 
