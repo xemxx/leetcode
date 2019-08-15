@@ -1,26 +1,34 @@
 package io
 
 import (
-	"fmt"
+	"bufio"
 	"io"
+	"os"
+	"strconv"
 )
 
-func scanArr() [][]int {
-	j := 0
-	var v []int
-	arr := [][]int{[]int{}}
+// ScanTwoArr 用于获取某些oj系统的二维数组的输入.
+func ScanTwoArr() [][]int {
+	arr := [][]int{}
 	for {
-		_, err := fmt.Scanln(&v)
+		reader := bufio.NewReader(os.Stdin)
+		bytes, _, err := reader.ReadLine()
 		if err == io.EOF {
 			break
 		}
-		fmt.Println(v)
-		for _, k := range v {
-			arr[j] = append(arr[j], k)
+		str := string(bytes)
+		now := []int{}
+		start := 0
+		for i := range str {
+			if str[i] == ' ' {
+				num, _ := strconv.Atoi(str[start:i])
+				now = append(now, num)
+				start = i + 1
+			}
 		}
-		arr = append(arr, []int{})
-		j++
+		num, _ := strconv.Atoi(str[start:])
+		now = append(now, num)
+		arr = append(arr, now)
 	}
-	fmt.Println(arr)
 	return arr
 }

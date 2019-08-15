@@ -1,7 +1,9 @@
 package main
 
-import "fmt"
-import "leetcode/common/sort"
+import (
+	"fmt"
+	"leetcode/common/sort"
+)
 
 func main() {
 	a := []int{3, 44, 38, 5, 47, 15, 36, 26, 26, 27, 2, 46, 4, 19, 50, 48, 49}
