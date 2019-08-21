@@ -84,7 +84,7 @@ func shiftDown(arr []int, root, maxLen int) {
 // Create1 时间复杂度为O(NlogN).
 func Create1(arr []int) MaxHeap {
 	l := len(arr)
-	res := MaxHeap{make([]int, l)}
+	res := MaxHeap{make([]int, 0, l)}
 	for v := range arr {
 		res.Insert(v)
 	}

@@ -13,9 +13,9 @@ func MergeSort(arr []int, low, hight int) []int {
 }
 
 func merge(arr []int, low, mid, hight int) {
-	a := make([]int, hight-low)
-	i, j := low, mid
-	for i < mid && j < hight {
+	a := make([]int, 0, hight-low)
+	i, j := low, mid+1
+	for i <= mid && j <= hight {
 		if arr[i] > arr[j] {
 			a = append(a, arr[j])
 			j++
@@ -24,13 +24,16 @@ func merge(arr []int, low, mid, hight int) {
 			i++
 		}
 	}
-	for i < mid {
+	for i <= mid {
 		a = append(a, arr[i])
 		i++
 	}
-	for j < hight {
+	for j <= hight {
 		a = append(a, arr[j])
 		j++
+	}
+	for k := range a {
+		arr[low+k] = a[k]
 	}
 }
 
@@ -38,21 +41,14 @@ func merge(arr []int, low, mid, hight int) {
 // 该方法新建多个底层数组，空间浪费 .
 func MergeSort1(arr []int) []int {
 	l := len(arr)
-	if l > 2 {
+	if l >= 2 {
 		mid := l / 2
 		la := MergeSort1(arr[:mid])
 		ra := MergeSort1(arr[mid:])
 		a := merge1(la, ra)
 		return a
-	} else if l == 2 {
-		a := arr
-		if a[0] > a[1] {
-			a[0], a[1] = a[1], a[0]
-		}
-		return a
-	} else {
-		return []int{}
 	}
+	return arr
 }
 
 func merge1(la, ra []int) []int {

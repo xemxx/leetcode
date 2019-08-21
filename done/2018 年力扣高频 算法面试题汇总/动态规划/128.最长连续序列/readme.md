@@ -19,7 +19,7 @@
 代码：
 ``` golang
 func longestConsecutive(nums []int) int {
-	mmp := make(map[int]bool, len(nums))
+	mmp := make(map[int]bool,len(nums))
 	for _, k := range nums {
 		mmp[k] = true
 	}
