@@ -10,7 +10,7 @@ import (
 func main() {
 
 	reader := bufio.NewReader(os.Stdin)
-	bytes, _, err := reader.ReadLine()
+	bytes, _, _ := reader.ReadLine()
 	str := string(bytes)
 	now := []int{}
 	start := 0
@@ -25,7 +25,7 @@ func main() {
 	now = append(now, num)
 
 	reader = bufio.NewReader(os.Stdin)
-	bytes, _, err = reader.ReadLine()
+	bytes, _, _ = reader.ReadLine()
 	str = string(bytes)
 	char := []string{}
 	start = 0
@@ -37,11 +37,11 @@ func main() {
 	}
 	char = append(char, str[start:])
 
-	for i := range num {
+	for i := range now {
 		if i%4 == 0 {
 			fmt.Print("%v ", char[i])
 		} else {
-			fmt.Print("%v ", num[i])
+			fmt.Print("%v ", now[i])
 		}
 	}
 
