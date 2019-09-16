@@ -1,2 +1,4 @@
 .vscode
 done/question
+.DS_Store
+.idea/*
