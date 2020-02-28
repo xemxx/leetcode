@@ -14,8 +14,9 @@ function find_longest_num_str($input)
     for ($i=0;$i<strlen($input);$i++) {
         if(is_numeric($input[$i])){
             $count++;
-            $output=$output.$input[$i];
+            $output=$output.$input[$i]; //添加字符到末尾
         }else{
+            // 出现不是数字就保存一下
             if($maxCount<$count){
                 $maxCount=$count;
                 $maxOutput=$output;
@@ -24,12 +25,11 @@ function find_longest_num_str($input)
             $output='';
         }
     }
+    //可能最后一个字符是数字，需要统计
     if($maxCount<$count){
         $maxCount=$count;
         $maxOutput=$output;
     }
-    $count=0;
-    $output='';
     return "$maxCount/$maxOutput";
 }
 /******************************结束写代码******************************/
