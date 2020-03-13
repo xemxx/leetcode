@@ -10,6 +10,7 @@ func main() {
 
 }
 
+// 暴力
 func majorityElement(nums []int) int {
 
 	for _, i := range nums {
@@ -25,6 +26,23 @@ func majorityElement(nums []int) int {
 		}
 	}
 	return 0
+}
+
+//思路： 1、hash计算次数，2、排序取中值，3、如下方法
+func majorityElement1(nums []int) int {
+	count := 0
+	x := nums[0]
+	for i := 0; i < len(nums); i++ {
+		if count == 0 {
+			x = nums[i]
+		}
+		if nums[i] == x {
+			count++
+		} else {
+			count--
+		}
+	}
+	return x
 }
 
 /*
