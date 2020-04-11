@@ -46,14 +46,16 @@ func solution(arr [][]int) int {
 
 			if arr[i][j] > top {
 				m += arr[i][j] - top
-			} else if arr[i][j] > buttom {
+			}
+			if arr[i][j] > buttom {
 				m += arr[i][j] - buttom
-			} else if arr[i][j] > left {
+			}
+			if arr[i][j] > left {
 				m += arr[i][j] - left
-			} else if arr[i][j] > right {
+			}
+			if arr[i][j] > right {
 				m += arr[i][j] - right
 			}
-
 		}
 	}
 	return m
