@@ -3,3 +3,5 @@ done/question
 .DS_Store
 .idea/*
 cn
+main
+node_modules

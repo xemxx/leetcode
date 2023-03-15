@@ -1,5 +1,7 @@
 package main
 
+import "fmt"
+
 type lru struct {
 	Head *node
 	Tail *node
@@ -15,11 +17,12 @@ type node struct {
 }
 
 func main() {
-	l := NewLru(5)
-	l.add(1, 2)
-	l.add(2, 2)
-	l.add(3, 2)
-	l.pop(1)
+	// l := NewLru(5)
+	// l.add(1, 2)
+	// l.add(2, 2)
+	// l.add(3, 2)
+	// l.pop(1)
+	fmt.Println("94" < "9", "34" < "0")
 }
 
 func NewLru(b int) *lru {
